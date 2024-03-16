@@ -70,6 +70,10 @@ def main():
             meow.velocity.y *= -1
             meow.rect.bottom = win_size.y  # type: ignore
 
+        for mouse in mice:
+            if not win.get_rect().colliderect(mouse.rect):  # type: ignore
+                mice.remove(mouse)
+
         # Meow - mouse collisions
         if collided_mice := spritecollide(meow, mice, dokill=True):  # type: ignore
             num_of_mice = len(collided_mice)
