@@ -2,7 +2,7 @@ from random import randint
 
 import pygame
 from pygame import Vector2
-from pygame.sprite import Group
+from pygame.sprite import Group, spritecollide
 
 from meow import Meow, MEOW_LAUNCH_STRENGTH
 from mouse import Mouse
@@ -26,8 +26,6 @@ def main():
     # Spawn a mouse every 3 seconds
     pygame.time.set_timer(spawn_mouse_event, 3000)
 
-    meow_can_move = True
-
     while True:
         dt = clock.tick(FPS) / 1000
 
@@ -36,14 +34,14 @@ def main():
             if ev.type == pygame.QUIT:
                 return
 
-            elif ev.type == pygame.MOUSEBUTTONDOWN and meow_can_move:
+            elif ev.type == pygame.MOUSEBUTTONDOWN and meow.can_move:
                 mouse_pos = Vector2(pygame.mouse.get_pos())
                 meow_pos = Vector2(meow.rect.center)  # type: ignore
 
                 dir = (mouse_pos - meow_pos).normalize()
                 meow.velocity = dir * MEOW_LAUNCH_STRENGTH
 
-                meow_can_move = False
+                meow.can_move = False
 
             elif ev.type == spawn_mouse_event:
                 new_x = randint(0, int(win_size.x - 100)) + 50
@@ -70,6 +68,11 @@ def main():
         elif meow.rect.bottom > win_size.y:  # type: ignore
             meow.velocity.y *= -1
             meow.rect.bottom = win_size.y  # type: ignore
+
+        # Meow - mouse collisions
+        if collided_mice := spritecollide(meow, mice, dokill=True):  # type: ignore
+            meow.score += len(collided_mice)
+            meow.can_move = True
 
         # Draw game objects
 

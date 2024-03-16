@@ -25,6 +25,7 @@ class Meow(pygame.sprite.Sprite):
         self.rect.center = position
 
         self.score = 0
+        self.can_move = True
 
     def update(self, dt: float):  # type: ignore
         self.velocity *= 1 - MEOW_VELOCITY_DAMPING
