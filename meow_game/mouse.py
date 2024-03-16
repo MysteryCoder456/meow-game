@@ -5,7 +5,7 @@ from pygame import Vector2
 from pygame.transform import scale_by, flip
 
 MOUSE_IMAGE_PATH = Path(__file__).parent.parent / "assets" / "mouse.png"
-MOUSE_SPEED = 50
+MOUSE_SPEED = 65
 
 
 class Mouse(pygame.sprite.Sprite):

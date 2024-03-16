@@ -34,13 +34,13 @@ def main():
             if ev.type == pygame.QUIT:
                 return
 
-            elif ev.type == pygame.MOUSEBUTTONDOWN and meow.can_move:
+            elif ev.type == pygame.MOUSEBUTTONDOWN and meow.energy > 0:
                 mouse_pos = Vector2(pygame.mouse.get_pos())
                 meow_pos = Vector2(meow.rect.center)  # type: ignore
                 dir = (mouse_pos - meow_pos).normalize()
 
                 meow.velocity = dir * MEOW_LAUNCH_STRENGTH
-                meow.can_move = False
+                meow.energy -= 1
 
             elif ev.type == spawn_mouse_event:
                 new_x = randint(0, int(win_size.x - 100)) + 50
@@ -72,8 +72,9 @@ def main():
 
         # Meow - mouse collisions
         if collided_mice := spritecollide(meow, mice, dokill=True):  # type: ignore
-            meow.score += len(collided_mice)
-            meow.can_move = True
+            num_of_mice = len(collided_mice)
+            meow.score += num_of_mice
+            meow.energy += num_of_mice
 
         # Draw game objects
 
