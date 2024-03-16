@@ -5,8 +5,8 @@ from pygame import Vector2
 from pygame.transform import scale_by
 
 MEOW_IMAGE_PATH = Path(__file__).parent.parent / "assets" / "meow.png"
-MEOW_LAUNCH_STRENGTH = 1500
-MEOW_VELOCITY_DAMPING = 0.02
+MEOW_LAUNCH_STRENGTH = 1000
+MEOW_VELOCITY_DAMPING = 0.05
 
 
 class Meow(pygame.sprite.Sprite):

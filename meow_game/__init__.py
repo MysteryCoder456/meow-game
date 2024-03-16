@@ -1,4 +1,4 @@
-from random import randint
+from random import randint, random
 
 import pygame
 from pygame import Vector2
@@ -37,16 +37,17 @@ def main():
             elif ev.type == pygame.MOUSEBUTTONDOWN and meow.can_move:
                 mouse_pos = Vector2(pygame.mouse.get_pos())
                 meow_pos = Vector2(meow.rect.center)  # type: ignore
-
                 dir = (mouse_pos - meow_pos).normalize()
-                meow.velocity = dir * MEOW_LAUNCH_STRENGTH
 
+                meow.velocity = dir * MEOW_LAUNCH_STRENGTH
                 meow.can_move = False
 
             elif ev.type == spawn_mouse_event:
                 new_x = randint(0, int(win_size.x - 100)) + 50
                 new_y = randint(0, int(win_size.y - 100)) + 50
-                mouse = Mouse(Vector2(new_x, new_y))
+                dir = (random() * 2 - 1) * 180
+
+                mouse = Mouse(Vector2(new_x, new_y), dir)
                 mice.add(mouse)
 
         # Update game objects
